@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-image: url(/nen1.webp);
+        }
+
+        * {
+            margin: 0 auto;
+            padding: 0px;
+        }
+
+        .bao {
+            width: 1100px;
+            height: 600px;
+        }
+
+        .btn {
+            height: 150px;
+            width: 150px;
+            font-size: 60px;
+            font-weight: bold;
+            border: 5px;
+        }
+
+        .board {
+            display: flex;
+            flex-wrap: wrap;
+            height: 450px;
+            width: 450px;
+            margin-left: 20px;
+        }
+
+        .menu {
+            height: 15px;
+            width: auto;
+            margin-top: 5px;
+
+        }
+
+        .main {
+            font-weight: bold;
+            background-color: #f7f1e3;
+            border-radius: 5px;
+        }
+
+        .menu a {
+            text-decoration: none;
+        }
+
+        .board {
+            margin-left: 25px;
+        }
+
+        aside {
+            float: left;
+            width: 300px;
+        }
+
+        article {
+            float: left;
+            width: 500px;
+        }
+
+        article .menu {
+            text-align: center;
+        }
+
+        aside.doc2 {
+            float: right;
+            padding-right: 0px;
+        }
+
+        footer {
+            clear: both;
+            background-color: #54a0ff;
+            width: 100%;
+            height: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bao">
+        <audio id="clickaudio" src="/am.mp3"></audio>
+        <audio id="chienthang" src="/win.mp3"></audio>
+        <audio autoplay id="myaudio" src="/audio.mp3"></audio>
+
+        <head>
+            <div class="chaychu">
+                <div class="text" style="padding-top: 5px;">
+                    <marquee behavior="" direction="">Chào mừng các bạn đã đến với Games Puzzel được xây dựng bởi Tú Lê
+                        -
+                        Chúc
+                        các bạn chơi vui vẻ 😂😂
+                    </marquee>
+                </div>
+            </div>
+        </head>
+        <aside class="doc1">
+            <div class="mg1">
+                <a href="https://www.facebook.com/ChuyenVienBDSLH0327578990"><img src="banner-bat-dong-san-doc-01.jpg"
+                        alt=""></a>
+            </div>
+        </aside>
+        <article>
+
+            <div class="board">
+                <button onclick=" move(0,0)" id="b00" class="btn"></button>
+                <button onclick=" move(0,1)" id="b01" class="btn"></button>
+                <button onclick=" move(0,2)" id="b02" class="btn"></button>
+                <br>
+                <button onclick=" move(1,0)" id="b10" class="btn"></button>
+                <button onclick=" move(1,1)" id="b11" class="btn"></button>
+                <button onclick=" move(1,2)" id="b12" class="btn"></button>
+                <br>
+                <button onclick=" move(2,0)" id="b20" class="btn"></button>
+                <button onclick=" move(2,1)" id="b21" class="btn"></button>
+                <button onclick=" move(2,2)" id="b22" class="btn"></button>
+            </div>
+            <div class="menu">
+                <button onclick="randomMove()" class="main">Xáo trộn</button>
+                <button id="upto5" hidden class="main">
+                    <a href="Puzzle_PD08120_version41.html" style="color: black;">Next level</a>
+                </button>
+                <button onclick="" class="main">Back level</button>
+                <button onclick="doiMau()" class="main">Đổi màu</button>
+                <button onclick="luatchoi()" class="main">Luật chơi</button>
+
+                <button onclick="toggleAudio(),unmuteAudio(),unmuteChienthang()" class="main"><img src="/3.png"
+                        width="20px" height="15px"></button>
+                <button onclick="untoggleAudio(),muteAudio(),muteChienThang()" class="main"><img src="/4.png"
+                        width="20px" height="15px"></button>
+            </div>
+            <a href="https://www.facebook.com/TrungTamNgoaiNguGOET/photos"><img src="ngang.jpg" alt="" width="450px"
+                    height="120px" style="margin-left: 25px;margin-top: 10px;"></a>
+        </article>
+        <aside class="doc2">
+            <a href="https://www.facebook.com/congtydia/?locale=vi_VN"><img src="banner-bat-dong-san-doc-03.jpg"
+                    alt=""></a>
+        </aside>
+        <footer>
+            <p>Copyright @ 2023 Designed by Lê Bá Tú IT18303</p>
+        </footer>
+    </div>
+
+    <script>
+        // tạo data
+        const data = [
+            ["1", "2", "3"],
+            ["4", "5", "6"],
+            ["7", "8", " "],
+        ];
+
+        const ketqua = [
+            ["1", "2", "3"],
+            ["4", "5", "6"],
+            ["7", "8", " "],
+        ];
+
+        const b = [
+            [document.getElementById("b00"), document.getElementById("b01"), document.getElementById("b02")],
+            [document.getElementById("b10"), document.getElementById("b11"), document.getElementById("b12")],
+            [document.getElementById("b20"), document.getElementById("b21"), document.getElementById("b22")],
+        ];
+        //---------------------------------------
+        // thông báo luật chơi
+        function luatchoi() {
+            alert("Di chuyển các ô chung cạnh với ô trống sao cho các số trong ô vuông tăng dần từ trái sang phải và từ trên xuống dưới!");
+        }
+        // phát hiệu ứng button
+        function audio() {
+            let audio = document.getElementById("clickaudio");
+            audio.play();
+        }
+        // kiểm tra hiệu ứng button đã tắt chưa
+        function muteAudio() {
+            let audio = document.getElementById("clickaudio");
+            if (audio.muted = true) {
+                audio.pause();
+            }
+        }
+        // kiểm tra hiệu ứng button đã bật chưa
+        function unmuteAudio() {
+            let audio = document.getElementById("clickaudio");
+            if (audio.muted = false) {
+                audio.play();
+            }
+        }
+        // kiểm tra nhạc nền đã bật chưa
+        function toggleAudio() {
+            let audio = document.getElementById("myaudio");
+            if (audio.paused) {
+                audio.play();
+            }
+        }
+        // kiểm tra nhạc nền đã tắt chưa
+        function untoggleAudio() {
+            let audio = document.getElementById("myaudio");
+            if (audio.played) {
+                audio.pause();
+            }
+        }
+        var soundon = true;
+        function muteChienThang() {
+            return soundon = false;
+        }
+        function unmuteChienthang() {
+            return soundon = true;
+        }
+        // kiểm tra các button đã đúng chưa
+        function checkin() {
+            let dem = 0;
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (data[i][j] == ketqua[i][j]) {
+                        dem++;
+                    }
+
+                }
+            }
+            if (dem == 9) return true;
+            else return false;
+        }
+        // kiểm soát các button
+        function namTrong(i, j) {
+            if (i >= 0 && i < 3 && j >= 0 && j < 3) return true;
+            else false;
+        }
+        // di chuyển các button
+        function move(i, j) {
+            if (namTrong(i, j + 1) && data[i][j + 1] == " ") {
+                data[i][j + 1] = data[i][j];
+                data[i][j] = " ";
+                audio()
+            }
+            else if (namTrong(i, j - 1) && data[i][j - 1] == " ") {
+                data[i][j - 1] = data[i][j];
+                data[i][j] = " "
+                audio()
+            }
+            else if (namTrong(i + 1, j) && data[i + 1][j] == " ") {
+                data[i + 1][j] = data[i][j];
+                data[i][j] = " ";
+                audio()
+            }
+            else if (namTrong(i - 1, j) && data[i - 1][j] == " ") {
+                data[i - 1][j] = data[i][j];
+                data[i][j] = " ";
+                audio()
+            }
+
+            veSo();
+            if (checkin() == true) {
+                let chienthang = document.getElementById("chienthang");
+
+                if (soundon) { chienthang.play(); }
+                let isAlertDisplayed = false; // biến lưu trữ trạng thái thông báo đang hiển thị
+
+                setInterval(() => {
+                    if (chienthang.currentTime >= 0) {
+                        if (!isAlertDisplayed) { // nếu thông báo chưa được hiển thị
+                            alert('Bạn đã chiến thắng');
+                            isAlertDisplayed = true; // đánh dấu thông báo đã được hiển thị
+                        }
+                    } else {
+                        isAlertDisplayed = false; // đặt lại trạng thái thông báo
+                    }
+                }, 100);
+                document.getElementById("upto5").hidden = false;
+
+            }
+
+        }
+        // cho giá trị ngẫu nhiên
+        function randInt(n) {
+            return Math.floor(Math.random() * n);
+        }
+        // hoán đổi các button ngẫu nhiên
+        function randomMove() {
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    data[i][j] = ketqua[i][j];
+                }
+            }
+
+            let u = 2, v = 2;
+            let soLan = 0;
+            do {
+                switch (randInt(4)) {
+                    case 0:
+                        if (namTrong(u, v - 1)) {
+                            data[u][v] = data[u][v - 1];
+                            data[u][v - 1] = " ";
+                            v = v - 1;
+                        }
+                        break;
+                    case 1:
+                        if (namTrong(u - 1, v)) {
+                            data[u][v] = data[u - 1][v];
+                            data[u - 1][v] = " ";
+                            u = u - 1;
+                        }
+                        break;
+                    case 2:
+                        if (namTrong(u, v + 1)) {
+                            data[u][v] = data[u][v + 1];
+                            data[u][v + 1] = " "
+                            v = v + 1;
+                        }
+                        break;
+                    case 3:
+                        if (namTrong(u + 1, v)) {
+                            data[u][v] = data[u + 1][v];
+                            data[u + 1][v] = " ";
+                            u = u + 1;
+                        }
+                        break;
+
+                }
+                soLan++;
+            }
+            while (soLan < 500);
+            veSo();
+        }
+
+
+        // vẽ số button
+        function veSo() {
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    b[i][j].textContent = data[i][j];
+                }
+            }
+        }
+        // tạo bảng màu
+        const bangMau = ["#45aaf2", "#f5f6fa", "#ffcccc", "#f78fb3", "#81ecec", "#00cec9", "#74b9ff", "#0984e3", "#dfe6e9", "#b2bec3", "#E7B10A", "#898121", "#f8c291", "#fad390"];
+        let mau = 0;
+        //---------------------------------------
+        // đổi màu
+        function doiMau() {
+            if (mau < bangMau.length - 2) mau++;
+            else mau = 0;
+            veMauNen();
+        }
+        // vẽ màu các button
+        function veMauNen() {
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if ((i + j) % 2 == 0) {
+                        b[i][j].style.background = bangMau[mau];
+                    }
+                    else
+                        b[i][j].style.background = bangMau[mau + 1];
+                }
+            }
+        }
+        veMauNen();
+        veSo();
+        randomMove();
+
+
+    </script>
+</body>
+
+</html>
